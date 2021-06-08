@@ -1,0 +1,53 @@
+ADABOOST
+
+
+Python 3.8.5 (default, Sep  5 2020, 10:50:12) 
+
+***Dataset iris***
+Trial: 0 Accuracy 95.6
+Trial: 10 Accuracy 100
+Trial: 20 Accuracy 93.3
+Trial: 30 Accuracy 91.1
+Trial: 40 Accuracy 97.8
+Trial: 50 Accuracy 93.3
+Trial: 60 Accuracy 93.3
+Trial: 70 Accuracy 97.8
+Trial: 80 Accuracy 95.6
+Trial: 90 Accuracy 93.3
+Final mean classification accuracy  94.7 with standard deviation 2.86
+***Dataset vowel***
+Trial: 0 Accuracy 76.6
+Trial: 10 Accuracy 86.4
+Trial: 20 Accuracy 83.1
+Trial: 30 Accuracy 80.5
+Trial: 40 Accuracy 72.7
+Trial: 50 Accuracy 76
+Trial: 60 Accuracy 81.8
+Trial: 70 Accuracy 82.5
+Trial: 80 Accuracy 79.9
+Trial: 90 Accuracy 83.1
+Final mean classification accuracy  80.2 with standard deviation 3.52
+***Dataset wine***
+Trial: 0 Accuracy 98.1
+Trial: 10 Accuracy 98.1
+Trial: 20 Accuracy 94.3
+Trial: 30 Accuracy 98.1
+Trial: 40 Accuracy 98.1
+Trial: 50 Accuracy 100
+Trial: 60 Accuracy 94.3
+Trial: 70 Accuracy 96.2
+Trial: 80 Accuracy 98.1
+Trial: 90 Accuracy 96.2
+Final mean classification accuracy  96.5 with standard deviation 2.27
+***Dataset olivetti***
+Trial: 0 Accuracy 88.3
+Trial: 10 Accuracy 90.8
+Trial: 20 Accuracy 85
+Trial: 30 Accuracy 89.2
+Trial: 40 Accuracy 89.2
+Trial: 50 Accuracy 84.2
+Trial: 60 Accuracy 91.7
+Trial: 70 Accuracy 82.5
+Trial: 80 Accuracy 81.7
+Trial: 90 Accuracy 86.7
+Final mean classification accuracy  87.7 with standard deviation 3.04
