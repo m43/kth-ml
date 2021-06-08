@@ -1,0 +1,180 @@
+---
+title: "kth-ml-ch"
+subtitle: "KTH Machine Learning, Programming challenge"
+author: "Frano Rajič"
+output: pdf_document
+---
+
+```{r}
+# install.packages("remotes")
+# remotes::install_github("ecpolley/SuperLearner")
+# install.packages("SuperLearner")
+# install.packages("arm")
+# install.packages("bartMachine")
+# install.packages("biglasso")
+# install.packages("bigmemory")
+# install.packages("caret")
+# install.packages("class")
+# install.packages("devtools")
+# install.packages("e1071")
+# install.packages("earth")
+# install.packages("extraTrees")
+# install.packages("gam")
+# install.packages("gbm")
+# install.packages("genefilter")
+# install.packages("ggplot2")
+# install.packages("glmnet")
+# install.packages("ipred")
+# install.packages("KernelKnn")
+# install.packages("kernlab")
+# install.packages("knitr")
+# install.packages("lattice")
+# install.packages("LogicReg")
+# install.packages("MASS")
+# install.packages("mlbench")
+# install.packages("nloptr")
+# install.packages("nnet")
+# install.packages("party")
+# install.packages("polspline")
+# install.packages("prettydoc")
+# install.packages("quadprog")
+# install.packages("randomForest")
+# install.packages("ranger")
+# install.packages("RhpcBLASctl")
+# install.packages("ROCR")
+# install.packages("rmarkdown")
+# install.packages("rpart")
+# install.packages("SIS")
+# install.packages("speedglm")
+# install.packages("spls")
+# install.packages("sva")
+# install.packages("testthat")
+# install.packages("xgboost")
+# install.packages(c("arm","bartMachine","biglasso","bigmemory","caret","class","devtools","e1071","earth","extraTrees","gam","gbm","genefilter","ggplot2","glmnet","ipred","KernelKnn","kernlab","knitr","lattice","LogicReg","MASS","mlbench","nloptr","nnet","party","polspline","prettydoc","quadprog","randomForest","ranger","RhpcBLASctl","ROCR","rmarkdown","rpart","SIS","speedglm","spls","sva","testthat","xgboost"))
+
+library("arm")
+library("bartMachine")
+library("biglasso")
+library("bigmemory")
+library("caret")
+library("class")
+library("devtools")
+library("e1071")
+library("earth")
+library("extraTrees")
+library("gam")
+library("gbm")
+# library("genefilter")
+library("ggplot2")
+library("glmnet")
+library("ipred")
+library("KernelKnn")
+library("kernlab")
+# library("knitr")
+library("lattice")
+library("LogicReg")
+library("MASS")
+library("mlbench")
+library("nloptr")
+library("nnet")
+library("party")
+library("polspline")
+library("prettydoc")
+library("quadprog")
+library("randomForest")
+library("ranger")
+library("RhpcBLASctl")
+library("ROCR")
+# library("rmarkdown")
+library("rpart")
+library("SIS")
+library("speedglm")
+library("spls")
+# library("sva")
+library("testthat")
+library("xgboost")
+```
+
+```{r}
+suppressWarnings(library(ggplot2))
+suppressWarnings(library("reshape2"))
+library("SuperLearner")
+```
+```{r}
+# Review available models.
+listWrappers()
+```
+
+
+```{r}
+# Peek at code for a model.
+SL.glmnet
+```
+
+
+# Loading the dataset
+
+```{r}
+train = read.csv("train_clean_3.csv") 
+eval = read.csv("test_3.csv") 
+# train = read.csv("train_clean_3_dropx3.csv") 
+# eval = read.csv("test_3_dropx3.csv") 
+
+train = train[ , !(names(train) %in% c("X","id"))]
+eval = eval[ , !(names(eval) %in% c("X","id", "Unnamed..0"))]
+
+train
+eval
+
+train_x = train[, -1]
+train_y = train$y
+```
+```{r}
+(num_cores = RhpcBLASctl::get_num_cores())
+options(mc.cores = 7)
+getOption("mc.cores")
+```
+```{r}
+SuperLearner
+```
+
+```{r}
+# Fit XGBoost, RF, Lasso, Neural Net, SVM, BART, K-nearest neighbors, Decision Tree, 
+# OLS, and simple mean; create automatic ensemble.
+# sl_lib = c("SL.xgboost", "SL.randomForest", "SL.glmnet", "SL.nnet", "SL.ksvm",
+#            "SL.bartMachine", "SL.kernelKnn", "SL.rpartPrune", "SL.lm", "SL.mean")
+sl_lib = c("SL.xgboost", "SL.randomForest", "SL.nnet", "SL.ksvm",
+           "SL.bartMachine", "SL.kernelKnn", "SL.rpartPrune")
+
+# TODO https://github.com/ecpolley/SuperLearner/issues/16
+# TODO how to do 3-class classification? Myb something with family/method. Don't really wanna do regression, makes no sense
+
+# set.seed(1, "L'Ecuyer-CMRG")
+# result = SuperLearner(Y = train_y, X = train_x, SL.library = sl_lib)
+# result
+# 
+# # Use external (aka nested) cross-validation to estimate ensemble accuracy.
+# # This will take a while to run.
+# set.seed(1, "L'Ecuyer-CMRG")
+# result2 = CV.SuperLearner(Y = train_y, X = train_x, SL.library = sl_lib, parallel="multicore")
+# 
+# # Plot performance of individual algorithms and compare to the ensemble.
+# plot(result2) + theme_minimal()
+# 
+# 
+# # Hyperparameter optimization --
+# # Fit elastic net with 5 different alphas: 0, 0.2, 0.4, 0.6, 0.8, 1.0.
+# # 0 corresponds to ridge and 1 to lasso.
+# enet = create.Learner("SL.glmnet", detailed_names = T,
+#                       tune = list(alpha = seq(0, 1, length.out = 5)))
+# 
+# sl_lib2 = c("SL.mean", "SL.lm", enet$names)
+# 
+# enet_sl = SuperLearner(Y = train_y, X = train_x, SL.library = sl_lib2)
+# 
+# # Identify the best-performing alpha value or use the automatic ensemble.
+# enet_sl
+
+```
+
+

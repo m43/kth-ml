@@ -1,0 +1,4 @@
+# kth-ml-ch
+
+Like real data, there may be problems with some of the entries in the training dataset file
+No questions will be answered from the instructors. Ask the data!
